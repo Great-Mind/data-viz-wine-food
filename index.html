@@ -1,0 +1,90 @@
+<html>
+
+<head>
+    <!--- D3 IMPORT HERE --->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!--- D3 IMPORT HERE --->
+
+    <style>
+        .main {
+            margin: 3em;
+        }
+        
+        p {
+            font-size: 1.1em;
+        }
+        
+        .gridlines .domain {
+            display: none;
+        }
+        
+        .gridlines line {
+            stroke: #bbb;
+        }
+        
+        .button {
+            border: none;
+            color: seagreen;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="main">
+        <h1 style="text-align: center;">Project 3</h1>
+        <h3 style="text-align: center;">Find the Perfect Bottle of Wine to Pair with Any Meal!</h3>
+        <div id="step-1" style="display: block;">
+            <h2>01 | What are you eating? </h2>
+            <button class="button" onclick="clickedButton(1)">Next</button>
+        </div>
+        <div id="step-2" style="display: none;">
+            <h2>02 | What type of wine do you prefer? </h2>
+            <button class="button" onclick="clickedButton(2)">Next</button>
+        </div>
+        <div id="step-3" style="display: none;">
+            <h2>03 | Which country's wine do you prefer? </h2>
+            <button class="button" onclick="clickedButton(3)">Next</button>
+        </div>
+        <div id="step-4" style="display: none;">
+            <h2>04 | What is your price point? </h2>
+            <svg id="chart" height="800" width="800"></svg>
+            <button class="button" onclick="clickedButton(4)">Next</button>
+        </div>
+        <div id="step-5" style="display: none;">
+            <h2>05 | Which bottle catches your eye? </h2>
+            <button class="button" onclick="clickedButton(5)">Next</button>
+        </div>
+        <div id="step-6" style="display: none;">
+            <h2>Here's your wine, enjoy!</h2>
+            <button class="button" onclick="clickedButton(6)">Retake Quiz</button>
+        </div>
+        <script>
+        </script>
+        </p>
+    </div>
+    <script>
+        // Button transition from one question to the next
+        function clickedButton(stepNum) {
+            const currDivString = "div#step-" + stepNum;
+            let currDiv = d3.select(currDivString);
+            currDiv.style("display", "none"); // hide current question
+
+            let nextDivString;
+            if (stepNum !== 6) {
+                nextDivString = "div#step-" + (stepNum + 1);
+            } else {
+                nextDivString = "div#step-1"; // go back to the start of quiz
+            }
+
+            let nextDiv = d3.select(nextDivString);
+            nextDiv.style("display", "block"); // display next question
+        }
+    </script>
+</body>
+
+</html>
