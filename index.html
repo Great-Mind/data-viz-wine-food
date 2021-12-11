@@ -61,13 +61,15 @@
             stroke: #bbb;
         }
         
-        .food {
+        .food,
+        .wine {
             padding-top: 10px;
             padding-bottom: 10px;
             border: 2px solid white;
         }
         
-        .food:hover {
+        .food:hover,
+        .wine:hover {
             border: 2px solid #D17076 !important;
             cursor: pointer;
         }
@@ -150,7 +152,16 @@
         </div>
         <div id="step-2" style="display: none;">
             <h3>02 | What type of wine do you prefer? </h3>
-            <button class="button" onclick="clickedButton(2)">Next</button>
+            <h4 id="step2-label"></h4>
+            <br/>
+            <table style="width: 100%; text-align: center;">
+                <tr class="wineBottles">
+                </tr>
+            </table>
+            <div class="btn-main">
+                <p id="error-2">** Please select atleast one wine to proceed **</p>
+                <button class="button" onclick="clickedButton(2)">Next<i class="fa fa-arrow-circle-o-right fa-lg" aria-hidden="true" style="padding-left: 10px;"></i></button>
+            </div>
         </div>
         <div id="step-3" style="display: none;">
             <h3>03 | Which country's wine do you prefer? </h3>
@@ -171,8 +182,22 @@
         </div>
     </div>
     <script>
+        // Mapping food names without and with space
+        const readableFoodNames = {
+            "Vegetables": "Vegetables",
+            "SoftCheese": "Soft Cheese",
+            "HardCheese": "Hard Cheese",
+            "Starches": "Starches",
+            "Fish": "Fish",
+            "Shellfish": "Shellfish",
+            "WhiteMeat": "White Meat",
+            "RedMeat": "Red Meat",
+            "CuredMeat": "Cured Meat",
+            "Dessert": "Dessert"
+        }
+
         // Pairing of foods and wines
-        const food_groups = {
+        const foodGroups = {
             "Vegetables": ["Red", "Rose", "White", "Sparkling"],
             "SoftCheese": ["Rose", "White", "Sparkling"],
             "HardCheese": ["Red", "White", "Sparkling"],
@@ -292,8 +317,9 @@
 
         };
 
-        // TRACKING USER SELECTIONS
+        // --- TRACKING USER SELECTIONS ---
         let selectedFoodItem;
+        let selectedWine;
 
         // Step 1: Selecting food item
         function selectFood(foodItem) {
@@ -306,17 +332,50 @@
             selectedFoodItem = foodItem;
         }
 
+        // Step 1 to Step 2 filtering
         function findFoodPairing() {
-            console.log("called function");
+            let label = d3.select("#step2-label");
+            const availableWines = foodGroups[selectedFoodItem];
+            let textString = "";
+            let tableRow = d3.select(".wineBottles");
+            for (let i = 0; i < availableWines.length; i++) {
+                // Displaying the correct wines
+                let wine = tableRow.append("td")
+                    .attr("class", "wine")
+                    .attr("id", availableWines[i]);
+                let currImgLocation = "/Assets/" + availableWines[i] + ".png";
+                wine.append("img") // Wine images
+                    .attr("height", 300)
+                    .attr("src", currImgLocation);
+                wine.on("click", function() { // Interactivity on selecting wine
+                    console.log(availableWines[i]);
+                    let allWines = d3.selectAll("td");
+                    allWines.style("border", "2px solid white"); // Unselect other selections
+                    const currSelection = "td#" + availableWines[i];
+                    let currWine = d3.select(currSelection);
+                    currWine.style("border", "2px solid black");
+                    selectedWine = availableWines[i];
+                });
+
+                // Setting the description header text
+                textString = textString + availableWines[i];
+                if (i != availableWines.length - 1) {
+                    textString = textString + ","; // add comma after all but the last name
+                }
+                textString = textString + " ";
+            }
+            textString = textString + "wine(s) pair best with " + readableFoodNames[selectedFoodItem] + ". Pick One!";
+            label.text(textString);
         }
 
         // Button transition from one question to the next
         function clickedButton(stepNum) {
-
             // Error conditions for moving to "next"
             const errorString = "#error-" + stepNum;
             let errorMessage = d3.select(errorString);
             if (stepNum == 1 && selectedFoodItem == undefined) {
+                errorMessage.style("visibility", "visible");
+            } else if (stepNum == 2 && selectedWine == undefined) {
                 errorMessage.style("visibility", "visible");
             } else {
                 errorMessage.style("visibility", "hidden");
