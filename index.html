@@ -165,20 +165,31 @@
         </div>
         <div id="step-3" style="display: none;">
             <h3>03 | Which country's wine do you prefer? </h3>
-            <button class="button" onclick="clickedButton(3)">Next</button>
+            <div class="btn-main">
+                <p id="error-3">** Please select atleast one country to proceed **</p>
+                <button class="button" onclick="clickedButton(3)">Next<i class="fa fa-arrow-circle-o-right fa-lg" aria-hidden="true" style="padding-left: 10px;"></i></button>
+            </div>
         </div>
         <div id="step-4" style="display: none;">
             <h3>04 | What is your price point? </h3>
             <svg id="chart" height="800" width="800"></svg>
-            <button class="button" onclick="clickedButton(4)">Next</button>
+            <div class="btn-main">
+                <p id="error-4">** Please indicate a price range to proceed **</p>
+                <button class="button" onclick="clickedButton(4)">Next<i class="fa fa-arrow-circle-o-right fa-lg" aria-hidden="true" style="padding-left: 10px;"></i></button>
+            </div>
         </div>
         <div id="step-5" style="display: none;">
             <h3>05 | Which bottle catches your eye? </h3>
-            <button class="button" onclick="clickedButton(5)">Next</button>
+            <div class="btn-main">
+                <p id="error-5">** Please select a bottle to proceed **</p>
+                <button class="button" onclick="clickedButton(5)">Next<i class="fa fa-arrow-circle-o-right fa-lg" aria-hidden="true" style="padding-left: 10px;"></i></button>
+            </div>
         </div>
         <div id="step-6" style="display: none;">
             <h3>Here's your wine, enjoy!</h3>
-            <button class="button" onclick="clickedButton(6)">Retake Quiz</button>
+            <div class="btn-main">
+                <button class="button" onclick="clickedButton(6)">Retake Quiz</button>
+            </div>
         </div>
     </div>
     <script>
@@ -364,7 +375,12 @@
                 }
                 textString = textString + " ";
             }
-            textString = textString + "wine(s) pair best with " + readableFoodNames[selectedFoodItem] + ". Pick One!";
+            textString = textString + "wine(s) pair best with " + readableFoodNames[selectedFoodItem];
+            if (availableWines.length > 1) {
+                textString = textString + ". Pick One!";
+            } else {
+                textString = textString + ". Please select it to proceed!";
+            }
             label.text(textString);
         }
 
