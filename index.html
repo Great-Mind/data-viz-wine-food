@@ -19,6 +19,9 @@
         
         p {
             font-size: 1.1em;
+            font-family: 'Roboto Condensed', sans-serif;
+            color: #89192D;
+            visibility: hidden;
         }
         
         h1 {
@@ -46,6 +49,7 @@
             font-weight: 300;
             font-size: 20;
             margin-top: 2px;
+            margin-bottom: 0;
             color: #A5A5A5;
         }
         
@@ -57,14 +61,34 @@
             stroke: #bbb;
         }
         
+        .food {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: 2px solid white;
+        }
+        
+        .food:hover {
+            border: 2px solid #D17076 !important;
+            cursor: pointer;
+        }
+        
+        .btn-main {
+            text-align: right;
+            margin-right: 5%;
+            margin-top: 5px;
+        }
+        
         .button {
             border: none;
             background-color: #8F8F8F;
             color: white;
-            padding: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+            padding-top: 10px;
+            padding-bottom: 10px;
             text-align: center;
             font-family: 'Roboto Condensed', sans-serif;
-            font-size: 20px;
+            font-size: 25px;
             cursor: pointer;
             border-radius: 25px;
             box-shadow: 0px 4px 4px 0px #C1C1C1;
@@ -82,7 +106,47 @@
         <div id="step-1" style="display: block;">
             <h3>01 | What are you eating? </h3>
             <h4>Select a food group below</h4>
-            <button class="button" onclick="clickedButton(1)">Next<i class="fa fa-arrow-circle-o-right fa-lg" aria-hidden="true" style="padding-left: 10px;"></i></button>
+            <table style="width: 100%; text-align: center;">
+                <tr>
+                    <td class="food" id="Vegetables" onclick="selectFood(`Vegetables`)"><img src="/Assets/Vegetables.png" width="120px"><br/>
+                        <h4>Vegetables</h4>
+                    </td>
+                    <td class="food" id="SoftCheese" onclick="selectFood(`SoftCheese`)"><img src="/Assets/Soft Cheese.png" width="120px"><br/>
+                        <h4>Soft Cheese</h4>
+                    </td>
+                    <td class="food" id="HardCheese" onclick="selectFood(`HardCheese`)"><img src="/Assets/Hard Cheese.png" width="120px"><br/>
+                        <h4>Hard Cheese</h4>
+                    </td>
+                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="/Assets/Starches.png" width="120px"><br/>
+                        <h4>Starches</h4>
+                    </td>
+                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="/Assets/Fish.png" width="120px"><br/>
+                        <h4>Fish</h4>
+                    </td>
+                </tr>
+                <br/>
+                <tr>
+                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="/Assets/Shellfish.png" width="120px"><br/>
+                        <h4>Shellfish</h4>
+                    </td>
+                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="/Assets/White Meat.png" width="120px"><br/>
+                        <h4>White Meat</h4>
+                    </td>
+                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="/Assets/Red Meat.png" width="120px"><br/>
+                        <h4>Red Meat</h4>
+                    </td>
+                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="/Assets/Cured Meat.png" width="120px"><br/>
+                        <h4>Cured Meat</h4>
+                    </td>
+                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="/Assets/Dessert.png" width="120px"><br/>
+                        <h4>Dessert</h4>
+                    </td>
+                </tr>
+            </table>
+            <div class="btn-main">
+                <p id="error-1">** Please select atleast one food to proceed **</p>
+                <button class="button" onclick="clickedButton(1)">Next<i class="fa fa-arrow-circle-o-right fa-lg" aria-hidden="true" style="padding-left: 10px;"></i></button>
+            </div>
         </div>
         <div id="step-2" style="display: none;">
             <h3>02 | What type of wine do you prefer? </h3>
@@ -105,27 +169,178 @@
             <h3>Here's your wine, enjoy!</h3>
             <button class="button" onclick="clickedButton(6)">Retake Quiz</button>
         </div>
-        <script>
-        </script>
-        </p>
     </div>
     <script>
+        // Pairing of foods and wines
+        const food_groups = {
+            "Vegetables": ["Red", "Rose", "White", "Sparkling"],
+            "SoftCheese": ["Rose", "White", "Sparkling"],
+            "HardCheese": ["Red", "White", "Sparkling"],
+            "Starches": ["Red", "Rose", "White", "Sparkling"],
+            "Fish": ["White", "Sparkling"],
+            "Shellfish": ["Red", "Rose", "White"],
+            "WhiteMeat": ["Red", "White"],
+            "RedMeat": ["Red"],
+            "CuredMeat": ["Red", "White"],
+            "Dessert": ["White"]
+        }
+
+        const requestData = async function() {
+            let redWines = await d3.csv("Red.csv", d3.autoType);
+            let whiteWines = await d3.csv("White.csv", d3.autoType);
+            let roseWines = await d3.csv("Rose.csv", d3.autoType);
+            let sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
+
+            /* DATA PROCESSING:
+             * For each wine category: Count the number of rows for a country
+             * Keep only the data that belongs to one of the top 10 countries
+             * 
+             * Change price from EUR to USD
+             */
+
+            // ===== DATA PROCESSING FOR RED WINES =====
+            redCountryCount = {};
+            // counting number of wines from each country
+            redWines.forEach(item => {
+                if (item['Country'] in redCountryCount) {
+                    redCountryCount[item['Country']] += 1;
+                } else {
+                    redCountryCount[item['Country']] = 1;
+                }
+            });
+            let redCountries = Object.entries(redCountryCount).sort((a, b) => b[1] - a[1]).map(el => el[0]); // sorting by the country count and returning only the country names
+            if (redCountries.length > 10) {
+                redCountries.splice(10); // keeping only the top 10 countries
+            }
+            // delete entries from other countries
+            redWines.forEach((item, index) => {
+                if (!redCountries.includes(item["Country"])) {
+                    redWines.splice(index, 1);
+                } else {
+                    item["Price"] *= 1.13; // change price from EUR to USD
+                }
+            });
+
+            // ===== DATA PROCESSING FOR WHITE WINES =====
+            whiteCountryCount = {};
+            // counting number of wines from each country
+            whiteWines.forEach(item => {
+                if (item['Country'] in whiteCountryCount) {
+                    whiteCountryCount[item['Country']] += 1;
+                } else {
+                    whiteCountryCount[item['Country']] = 1;
+                }
+            });
+            let whiteCountries = Object.entries(whiteCountryCount).sort((a, b) => b[1] - a[1]).map(el => el[0]); // sorting by the country count and returning only the country names
+            if (whiteCountries.length > 10) {
+                whiteCountries.splice(10); // keeping only the top 10 countries
+            }
+            // delete entries from other countries
+            whiteWines.forEach((item, index) => {
+                if (!whiteCountries.includes(item["Country"])) {
+                    whiteWines.splice(index, 1);
+                } else {
+                    item["Price"] *= 1.13; // change price from EUR to USD
+                }
+            });
+
+            // ===== DATA PROCESSING FOR ROSE WINES =====
+            roseCountryCount = {};
+            // counting number of wines from each country
+            roseWines.forEach(item => {
+                if (item['Country'] in roseCountryCount) {
+                    roseCountryCount[item['Country']] += 1;
+                } else {
+                    roseCountryCount[item['Country']] = 1;
+                }
+            });
+            let roseCountries = Object.entries(roseCountryCount).sort((a, b) => b[1] - a[1]).map(el => el[0]); // sorting by the country count and returning only the country names
+            if (roseCountries.length > 10) {
+                roseCountries.splice(10); // keeping only the top 10 countries
+            }
+            // delete entries from other countries
+            roseWines.forEach((item, index) => {
+                if (!roseCountries.includes(item["Country"])) {
+                    roseWines.splice(index, 1);
+                } else {
+                    item["Price"] *= 1.13; // change price from EUR to USD
+                }
+            });
+
+            // ===== DATA PROCESSING FOR SPARKLING WINES =====
+            sparklingCountryCount = {};
+            // counting number of wines from each country
+            sparklingWines.forEach(item => {
+                if (item['Country'] in sparklingCountryCount) {
+                    sparklingCountryCount[item['Country']] += 1;
+                } else {
+                    sparklingCountryCount[item['Country']] = 1;
+                }
+            });
+            let sparklingCountries = Object.entries(sparklingCountryCount).sort((a, b) => b[1] - a[1]).map(el => el[0]); // sorting by the country count and returning only the country names
+            if (sparklingCountries.length > 10) {
+                sparklingCountries.splice(10); // keeping only the top 10 countries
+            }
+            // delete entries from other countries
+            sparklingWines.forEach((item, index) => {
+                if (!sparklingCountries.includes(item["Country"])) {
+                    sparklingWines.splice(index, 1);
+                } else {
+                    item["Price"] *= 1.13; // change price from EUR to USD
+                }
+            });
+
+        };
+
+        // TRACKING USER SELECTIONS
+        let selectedFoodItem;
+
+        // Step 1: Selecting food item
+        function selectFood(foodItem) {
+            console.log(foodItem);
+            let allFoods = d3.selectAll("td");
+            allFoods.style("border", "2px solid white");
+            const currSelection = "td#" + foodItem;
+            let currFoodItem = d3.select(currSelection);
+            currFoodItem.style("border", "2px solid black");
+            selectedFoodItem = foodItem;
+        }
+
+        function findFoodPairing() {
+            console.log("called function");
+        }
+
         // Button transition from one question to the next
         function clickedButton(stepNum) {
-            const currDivString = "div#step-" + stepNum;
-            let currDiv = d3.select(currDivString);
-            currDiv.style("display", "none"); // hide current question
 
-            let nextDivString;
-            if (stepNum !== 6) {
-                nextDivString = "div#step-" + (stepNum + 1);
+            // Error conditions for moving to "next"
+            const errorString = "#error-" + stepNum;
+            let errorMessage = d3.select(errorString);
+            if (stepNum == 1 && selectedFoodItem == undefined) {
+                errorMessage.style("visibility", "visible");
             } else {
-                nextDivString = "div#step-1"; // go back to the start of quiz
-            }
+                errorMessage.style("visibility", "hidden");
+                const currDivString = "div#step-" + stepNum;
+                let currDiv = d3.select(currDivString);
+                currDiv.style("display", "none"); // hide current question
 
-            let nextDiv = d3.select(nextDivString);
-            nextDiv.style("display", "block"); // display next question
+                let nextDivString;
+                if (stepNum !== 6) {
+                    nextDivString = "div#step-" + (stepNum + 1);
+                } else {
+                    nextDivString = "div#step-1"; // go back to the start of quiz
+                }
+
+                let nextDiv = d3.select(nextDivString);
+                nextDiv.style("display", "block"); // display next question
+
+                if (stepNum == 1) {
+                    findFoodPairing();
+                }
+            }
         }
+
+        requestData(); // Load Data
     </script>
 </body>
 
