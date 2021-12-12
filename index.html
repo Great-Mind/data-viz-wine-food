@@ -175,6 +175,8 @@
             <h4>Drag over your desired price range</h4>
             <br/>
             <div style="text-align: center;">
+                <h4 id="priceRange"></h4>
+                <h4 id="ratingRange"></h4>
                 <svg id="chart4" height="500" width="850"></svg>
             </div>
             <div class="btn-main">
@@ -240,6 +242,8 @@
 
         let annotations = svg.append("g").attr("id", "annotations");
         let chartArea = svg.append("g").attr("id", "points")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+        let brushArea = svg.append("g").attr("id", "brush")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
         let redWines, whiteWines, roseWines, sparklingWines;
@@ -354,6 +358,9 @@
         // --- TRACKING USER SELECTIONS ---
         let selectedFoodItem;
         let selectedWine;
+        let selectedPriceRange;
+        let chosenDataSet;
+        let startPrice, endPrice, startRating, endRating;
 
         // Step 1: Selecting food item
         function selectFood(foodItem) {
@@ -409,7 +416,6 @@
 
         // Step 4 price graphs
         function priceGraph() {
-            let chosenDataSet;
             let dataFillColour;
             if (selectedWine == "Red") {
                 chosenDataSet = redWines;
@@ -424,6 +430,7 @@
                 chosenDataSet = sparklingWines;
                 dataFillColour = "#ffcb12";
             }
+            console.log("DATA IS: ", selectedWine, chosenDataSet);
 
             // Creating Scales
             const priceExtent = d3.extent(chosenDataSet, d => d['Price']);
@@ -431,6 +438,12 @@
 
             const ratingExtent = d3.extent(chosenDataSet, d => d['Rating']);
             const ratingScale = d3.scaleLinear().domain(ratingExtent).range([chartHeight, 0]);
+
+            // Brush
+            let brush = d3.brush().extent([
+                [-10, 0],
+                [chartWidth + 10, chartHeight + 10]
+            ]).on("start brush end", brushed);
 
             // X axis
             let bottomAxis = d3.axisBottom(priceScale);
@@ -479,7 +492,7 @@
                 .text("Rating of Wine");
 
             // Adding Points to Graph
-            chartArea.selectAll("circle.wine").data(chosenDataSet)
+            const dot = chartArea.selectAll("circle.wine").data(chosenDataSet)
                 .join("circle")
                 .attr("class", "wine")
                 .attr("cx", d => priceScale(d['Price']))
@@ -487,6 +500,60 @@
                 .attr("r", 5)
                 .attr("opacity", 0.6)
                 .attr("fill", dataFillColour);
+
+            brushArea.call(brush);
+
+            let priceLabel = d3.select("#priceRange");
+            priceLabel.style("color", "black");
+            priceLabel.text(`Selected Price Range: $-- to $--`);
+            let ratingLabel = d3.select("#ratingRange");
+            ratingLabel.style("color", "black");
+            ratingLabel.text(`Selected Rating Range: -- to --`);
+
+            // Brush function on graph
+            function brushed(event) {
+                if (event.selection !== null) {
+                    startPrice = priceScale.invert(event.selection[0][0]);
+                    endRating = ratingScale.invert(event.selection[0][1]);
+                    endPrice = priceScale.invert(event.selection[1][0]);
+                    startRating = ratingScale.invert(event.selection[1][1]);
+
+                    if (startPrice !== endPrice && startRating !== endRating) {
+                        // user has made a proper selection
+                        selectedPriceRange = true;
+                        priceLabel.text(`Selected Price Range: $${Math.round(startPrice * 100) / 100} to $${Math.round(endPrice * 100) / 100}`);
+                        ratingLabel.text(`Selected Rating Range: ${Math.round(startRating * 100) / 100} to ${Math.round(endRating * 100) / 100}`);
+                    } else {
+                        // user has clicked out of selection
+                        selectedPriceRange = false;
+                        priceLabel.text(`Selected Price Range: $-- to $--`);
+                        ratingLabel.text(`Selected Rating Range: -- to --`);
+                    }
+                }
+            }
+        }
+
+        // Step 4 to 5 transition
+        function filterBasedOnPrice() {
+            chosenDataSet.forEach((item, index) => {
+                // filter based on price and rating selected
+                if (item["Price"] < startPrice || item["Price"] > endPrice || item["Rating"] < startRating || item["Rating"] > endRating) {
+                    chosenDataSet.splice(index, 1);
+                }
+            });
+
+            // updating the main data variable after filtering
+            if (selectedWine == "Red") {
+                redWines = chosenDataSet;
+            } else if (selectedWine == "Rose") {
+                roseWines = chosenDataSet;
+            } else if (selectedWine == "White") {
+                whiteWines = chosenDataSet;
+            } else if (selectedWine == "Sparkling") {
+                sparklingWines = chosenDataSet;
+            }
+
+            console.log("After: ", chosenDataSet);
         }
 
         // Button transition from one question to the next
@@ -497,6 +564,8 @@
             if (stepNum == 1 && selectedFoodItem == undefined) {
                 errorMessage.style("visibility", "visible");
             } else if (stepNum == 2 && selectedWine == undefined) {
+                errorMessage.style("visibility", "visible");
+            } else if (stepNum == 4 && (selectedPriceRange == undefined || selectedPriceRange == false)) {
                 errorMessage.style("visibility", "visible");
             } else {
                 errorMessage.style("visibility", "hidden");
@@ -514,10 +583,13 @@
                 let nextDiv = d3.select(nextDivString);
                 nextDiv.style("display", "block"); // display next question
 
+                // Functions to call on transtion from one step to the next
                 if (stepNum == 1) {
                     findFoodPairing();
                 } else if (stepNum == 3) {
                     priceGraph();
+                } else if (stepNum == 4) {
+                    filterBasedOnPrice();
                 }
             }
         }
