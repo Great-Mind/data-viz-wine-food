@@ -257,18 +257,12 @@
             "Dessert": ["White"]
         }
 
-<<<<<<< HEAD
         var redCountriesTop10;
         var whiteCountriesTop10;
         var roseCountriesTop10;
         var sparklingCountriesTop10;
 
-        const requestData = async function () {
-            let redWines = await d3.csv("Red.csv", d3.autoType);
-            let whiteWines = await d3.csv("White.csv", d3.autoType);
-            let roseWines = await d3.csv("Rose.csv", d3.autoType);
-            let sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
-=======
+        
         // Step 4 Price Chart setup
         const svg = d3.select("svg#chart4");
         const width = svg.attr("width");
@@ -290,12 +284,11 @@
 
         let redWines, whiteWines, roseWines, sparklingWines;
 
-        const requestData = async function() {
-            redWines = await d3.csv("Red.csv", d3.autoType);
-            whiteWines = await d3.csv("White.csv", d3.autoType);
-            roseWines = await d3.csv("Rose.csv", d3.autoType);
-            sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
->>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
+        const requestData = async function () {
+            let redWines = await d3.csv("Red.csv", d3.autoType);
+            let whiteWines = await d3.csv("White.csv", d3.autoType);
+            let roseWines = await d3.csv("Rose.csv", d3.autoType);
+            let sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
 
             /* DATA PROCESSING:
              * For each wine category: Count the number of rows for a country
@@ -423,13 +416,10 @@
         // --- TRACKING USER SELECTIONS ---
         let selectedFoodItem;
         let selectedWine;
-<<<<<<< HEAD
         let selectedCountry;
-=======
         let selectedPriceRange;
         let chosenDataSet;
         let startPrice, endPrice, startRating, endRating;
->>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
 
         // Step 1: Selecting food item
         function selectFood(foodItem) {
@@ -481,7 +471,6 @@
             label.text(textString);
         }
 
-<<<<<<< HEAD
         // Step 2 to Step 3 filtering
         function findWineCountry() {
             // TODO
@@ -547,7 +536,6 @@
                 .attr('class', 'border')
                 .attr('d', path);
         };
-=======
         // Step 4 price graphs
         function priceGraph() {
             let dataFillColour;
@@ -689,7 +677,6 @@
 
             console.log("After: ", chosenDataSet);
         }
->>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
 
         // Button transition from one question to the next
         function clickedButton(stepNum) {
@@ -700,11 +687,9 @@
                 errorMessage.style("visibility", "visible");
             } else if (stepNum == 2 && selectedWine == undefined) {
                 errorMessage.style("visibility", "visible");
-<<<<<<< HEAD
             } else if (stepNum == 3 && selectedCountry == undefined) {
-=======
+                errorMessage.style("visibility", "visible");
             } else if (stepNum == 4 && (selectedPriceRange == undefined || selectedPriceRange == false)) {
->>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
                 errorMessage.style("visibility", "visible");
             } else {
                 errorMessage.style("visibility", "hidden");
@@ -725,15 +710,12 @@
                 // Functions to call on transtion from one step to the next
                 if (stepNum == 1) {
                     findFoodPairing();
-<<<<<<< HEAD
                 } else if (stepNum == 2) {
                     findWineCountry();
-=======
                 } else if (stepNum == 3) {
                     priceGraph();
                 } else if (stepNum == 4) {
                     filterBasedOnPrice();
->>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
                 }
             }
         }
