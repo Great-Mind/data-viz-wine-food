@@ -200,7 +200,13 @@
         </div>
         <div id="step-4" style="display: none;">
             <h3>04 | What is your price point? </h3>
-            <svg id="chart" height="800" width="800"></svg>
+            <h4>Drag over your desired price range</h4>
+            <br/>
+            <div style="text-align: center;">
+                <h4 id="priceRange"></h4>
+                <h4 id="ratingRange"></h4>
+                <svg id="chart4" height="500" width="850"></svg>
+            </div>
             <div class="btn-main">
                 <p id="error-4">** Please indicate a price range to proceed **</p>
                 <button class="button" onclick="clickedButton(4)">Next<i class="fa fa-arrow-circle-o-right fa-lg"
@@ -251,6 +257,7 @@
             "Dessert": ["White"]
         }
 
+<<<<<<< HEAD
         var redCountriesTop10;
         var whiteCountriesTop10;
         var roseCountriesTop10;
@@ -261,6 +268,34 @@
             let whiteWines = await d3.csv("White.csv", d3.autoType);
             let roseWines = await d3.csv("Rose.csv", d3.autoType);
             let sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
+=======
+        // Step 4 Price Chart setup
+        const svg = d3.select("svg#chart4");
+        const width = svg.attr("width");
+        const height = svg.attr("height");
+        const margin = {
+            top: 10,
+            right: 10,
+            bottom: 60,
+            left: 65
+        };
+        const chartWidth = width - margin.left - margin.right;
+        const chartHeight = height - margin.top - margin.bottom;
+
+        let annotations = svg.append("g").attr("id", "annotations");
+        let chartArea = svg.append("g").attr("id", "points")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+        let brushArea = svg.append("g").attr("id", "brush")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        let redWines, whiteWines, roseWines, sparklingWines;
+
+        const requestData = async function() {
+            redWines = await d3.csv("Red.csv", d3.autoType);
+            whiteWines = await d3.csv("White.csv", d3.autoType);
+            roseWines = await d3.csv("Rose.csv", d3.autoType);
+            sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
+>>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
 
             /* DATA PROCESSING:
              * For each wine category: Count the number of rows for a country
@@ -388,7 +423,13 @@
         // --- TRACKING USER SELECTIONS ---
         let selectedFoodItem;
         let selectedWine;
+<<<<<<< HEAD
         let selectedCountry;
+=======
+        let selectedPriceRange;
+        let chosenDataSet;
+        let startPrice, endPrice, startRating, endRating;
+>>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
 
         // Step 1: Selecting food item
         function selectFood(foodItem) {
@@ -440,6 +481,7 @@
             label.text(textString);
         }
 
+<<<<<<< HEAD
         // Step 2 to Step 3 filtering
         function findWineCountry() {
             // TODO
@@ -505,6 +547,149 @@
                 .attr('class', 'border')
                 .attr('d', path);
         };
+=======
+        // Step 4 price graphs
+        function priceGraph() {
+            let dataFillColour;
+            if (selectedWine == "Red") {
+                chosenDataSet = redWines;
+                dataFillColour = "#db3d13";
+            } else if (selectedWine == "Rose") {
+                chosenDataSet = roseWines;
+                dataFillColour = "#f38989";
+            } else if (selectedWine == "White") {
+                chosenDataSet = whiteWines;
+                dataFillColour = "#ccccff";
+            } else if (selectedWine == "Sparkling") {
+                chosenDataSet = sparklingWines;
+                dataFillColour = "#ffcb12";
+            }
+            console.log("DATA IS: ", selectedWine, chosenDataSet);
+
+            // Creating Scales
+            const priceExtent = d3.extent(chosenDataSet, d => d['Price']);
+            const priceScale = d3.scaleLog().domain(priceExtent).range([0, chartWidth]);
+
+            const ratingExtent = d3.extent(chosenDataSet, d => d['Rating']);
+            const ratingScale = d3.scaleLinear().domain(ratingExtent).range([chartHeight, 0]);
+
+            // Brush
+            let brush = d3.brush().extent([
+                [-10, 0],
+                [chartWidth + 10, chartHeight + 10]
+            ]).on("start brush end", brushed);
+
+            // X axis
+            let bottomAxis = d3.axisBottom(priceScale);
+            let bottomGridlines = d3.axisBottom(priceScale)
+                .tickSize(-chartHeight - 10)
+                .tickFormat("")
+            annotations.append("g")
+                .attr("transform", `translate(${margin.left},${chartHeight+margin.top+10})`)
+                .call(bottomAxis);
+            annotations.append("g")
+                .attr("class", "x gridlines")
+                .attr("transform", `translate(${margin.left},${chartHeight+margin.top+10})`)
+                .call(bottomGridlines);
+
+            svg.append("text") // Axis label
+                .attr("class", "x label")
+                .attr("text-anchor", "middle")
+                .attr("x", margin.left + (chartWidth / 2))
+                .attr("y", chartHeight + margin.top + 50)
+                .style("font-size", 14)
+                .style("font-family", 'Roboto Condensed')
+                .text(`Price of ${selectedWine} Wines (USD)`);
+
+            // Y axis
+            let leftAxis = d3.axisLeft(ratingScale)
+            let leftGridlines = d3.axisLeft(ratingScale)
+                .tickSize(-chartWidth - 10)
+                .tickFormat("")
+            annotations.append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${margin.left-10},${margin.top})`)
+                .call(leftAxis)
+            annotations.append("g")
+                .attr("class", "y gridlines")
+                .attr("transform", `translate(${margin.left-10},${margin.top})`)
+                .call(leftGridlines);
+
+            svg.append("text") // Axis label
+                .attr("class", "y label")
+                .attr("text-anchor", "middle")
+                .attr("x", -margin.top - (chartHeight / 2))
+                .attr("y", margin.left / 2 - 10)
+                .attr('transform', "rotate(-90)")
+                .style("font-size", 14)
+                .style("font-family", 'Roboto Condensed')
+                .text("Rating of Wine");
+
+            // Adding Points to Graph
+            const dot = chartArea.selectAll("circle.wine").data(chosenDataSet)
+                .join("circle")
+                .attr("class", "wine")
+                .attr("cx", d => priceScale(d['Price']))
+                .attr("cy", d => ratingScale(d['Rating']))
+                .attr("r", 5)
+                .attr("opacity", 0.6)
+                .attr("fill", dataFillColour);
+
+            brushArea.call(brush);
+
+            let priceLabel = d3.select("#priceRange");
+            priceLabel.style("color", "black");
+            priceLabel.text(`Selected Price Range: $-- to $--`);
+            let ratingLabel = d3.select("#ratingRange");
+            ratingLabel.style("color", "black");
+            ratingLabel.text(`Selected Rating Range: -- to --`);
+
+            // Brush function on graph
+            function brushed(event) {
+                if (event.selection !== null) {
+                    startPrice = priceScale.invert(event.selection[0][0]);
+                    endRating = ratingScale.invert(event.selection[0][1]);
+                    endPrice = priceScale.invert(event.selection[1][0]);
+                    startRating = ratingScale.invert(event.selection[1][1]);
+
+                    if (startPrice !== endPrice && startRating !== endRating) {
+                        // user has made a proper selection
+                        selectedPriceRange = true;
+                        priceLabel.text(`Selected Price Range: $${Math.round(startPrice * 100) / 100} to $${Math.round(endPrice * 100) / 100}`);
+                        ratingLabel.text(`Selected Rating Range: ${Math.round(startRating * 100) / 100} to ${Math.round(endRating * 100) / 100}`);
+                    } else {
+                        // user has clicked out of selection
+                        selectedPriceRange = false;
+                        priceLabel.text(`Selected Price Range: $-- to $--`);
+                        ratingLabel.text(`Selected Rating Range: -- to --`);
+                    }
+                }
+            }
+        }
+
+        // Step 4 to 5 transition
+        function filterBasedOnPrice() {
+            chosenDataSet.forEach((item, index) => {
+                // filter based on price and rating selected
+                if (item["Price"] < startPrice || item["Price"] > endPrice || item["Rating"] < startRating || item["Rating"] > endRating) {
+                    chosenDataSet.splice(index, 1);
+                }
+            });
+
+            // updating the main data variable after filtering
+            if (selectedWine == "Red") {
+                redWines = chosenDataSet;
+            } else if (selectedWine == "Rose") {
+                roseWines = chosenDataSet;
+            } else if (selectedWine == "White") {
+                whiteWines = chosenDataSet;
+            } else if (selectedWine == "Sparkling") {
+                sparklingWines = chosenDataSet;
+            }
+
+            console.log("After: ", chosenDataSet);
+        }
+>>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
 
         // Button transition from one question to the next
         function clickedButton(stepNum) {
@@ -515,7 +700,11 @@
                 errorMessage.style("visibility", "visible");
             } else if (stepNum == 2 && selectedWine == undefined) {
                 errorMessage.style("visibility", "visible");
+<<<<<<< HEAD
             } else if (stepNum == 3 && selectedCountry == undefined) {
+=======
+            } else if (stepNum == 4 && (selectedPriceRange == undefined || selectedPriceRange == false)) {
+>>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
                 errorMessage.style("visibility", "visible");
             } else {
                 errorMessage.style("visibility", "hidden");
@@ -533,10 +722,18 @@
                 let nextDiv = d3.select(nextDivString);
                 nextDiv.style("display", "block"); // display next question
 
+                // Functions to call on transtion from one step to the next
                 if (stepNum == 1) {
                     findFoodPairing();
+<<<<<<< HEAD
                 } else if (stepNum == 2) {
                     findWineCountry();
+=======
+                } else if (stepNum == 3) {
+                    priceGraph();
+                } else if (stepNum == 4) {
+                    filterBasedOnPrice();
+>>>>>>> e585d92bdd620dc8aad35014c5160d51ec729423
                 }
             }
         }
