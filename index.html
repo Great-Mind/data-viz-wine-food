@@ -172,7 +172,11 @@
         </div>
         <div id="step-4" style="display: none;">
             <h3>04 | What is your price point? </h3>
-            <svg id="chart" height="800" width="800"></svg>
+            <h4>Drag over your desired price range</h4>
+            <br/>
+            <div style="text-align: center;">
+                <svg id="chart4" height="500" width="850"></svg>
+            </div>
             <div class="btn-main">
                 <p id="error-4">** Please indicate a price range to proceed **</p>
                 <button class="button" onclick="clickedButton(4)">Next<i class="fa fa-arrow-circle-o-right fa-lg" aria-hidden="true" style="padding-left: 10px;"></i></button>
@@ -221,11 +225,30 @@
             "Dessert": ["White"]
         }
 
+        // Step 4 Price Chart setup
+        const svg = d3.select("svg#chart4");
+        const width = svg.attr("width");
+        const height = svg.attr("height");
+        const margin = {
+            top: 10,
+            right: 10,
+            bottom: 60,
+            left: 65
+        };
+        const chartWidth = width - margin.left - margin.right;
+        const chartHeight = height - margin.top - margin.bottom;
+
+        let annotations = svg.append("g").attr("id", "annotations");
+        let chartArea = svg.append("g").attr("id", "points")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        let redWines, whiteWines, roseWines, sparklingWines;
+
         const requestData = async function() {
-            let redWines = await d3.csv("Red.csv", d3.autoType);
-            let whiteWines = await d3.csv("White.csv", d3.autoType);
-            let roseWines = await d3.csv("Rose.csv", d3.autoType);
-            let sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
+            redWines = await d3.csv("Red.csv", d3.autoType);
+            whiteWines = await d3.csv("White.csv", d3.autoType);
+            roseWines = await d3.csv("Rose.csv", d3.autoType);
+            sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
 
             /* DATA PROCESSING:
              * For each wine category: Count the number of rows for a country
@@ -384,6 +407,88 @@
             label.text(textString);
         }
 
+        // Step 4 price graphs
+        function priceGraph() {
+            let chosenDataSet;
+            let dataFillColour;
+            if (selectedWine == "Red") {
+                chosenDataSet = redWines;
+                dataFillColour = "#db3d13";
+            } else if (selectedWine == "Rose") {
+                chosenDataSet = roseWines;
+                dataFillColour = "#f38989";
+            } else if (selectedWine == "White") {
+                chosenDataSet = whiteWines;
+                dataFillColour = "#ccccff";
+            } else if (selectedWine == "Sparkling") {
+                chosenDataSet = sparklingWines;
+                dataFillColour = "#ffcb12";
+            }
+
+            // Creating Scales
+            const priceExtent = d3.extent(chosenDataSet, d => d['Price']);
+            const priceScale = d3.scaleLog().domain(priceExtent).range([0, chartWidth]);
+
+            const ratingExtent = d3.extent(chosenDataSet, d => d['Rating']);
+            const ratingScale = d3.scaleLinear().domain(ratingExtent).range([chartHeight, 0]);
+
+            // X axis
+            let bottomAxis = d3.axisBottom(priceScale);
+            let bottomGridlines = d3.axisBottom(priceScale)
+                .tickSize(-chartHeight - 10)
+                .tickFormat("")
+            annotations.append("g")
+                .attr("transform", `translate(${margin.left},${chartHeight+margin.top+10})`)
+                .call(bottomAxis);
+            annotations.append("g")
+                .attr("class", "x gridlines")
+                .attr("transform", `translate(${margin.left},${chartHeight+margin.top+10})`)
+                .call(bottomGridlines);
+
+            svg.append("text") // Axis label
+                .attr("class", "x label")
+                .attr("text-anchor", "middle")
+                .attr("x", margin.left + (chartWidth / 2))
+                .attr("y", chartHeight + margin.top + 50)
+                .style("font-size", 14)
+                .style("font-family", 'Roboto Condensed')
+                .text(`Price of ${selectedWine} Wines (USD)`);
+
+            // Y axis
+            let leftAxis = d3.axisLeft(ratingScale)
+            let leftGridlines = d3.axisLeft(ratingScale)
+                .tickSize(-chartWidth - 10)
+                .tickFormat("")
+            annotations.append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${margin.left-10},${margin.top})`)
+                .call(leftAxis)
+            annotations.append("g")
+                .attr("class", "y gridlines")
+                .attr("transform", `translate(${margin.left-10},${margin.top})`)
+                .call(leftGridlines);
+
+            svg.append("text") // Axis label
+                .attr("class", "y label")
+                .attr("text-anchor", "middle")
+                .attr("x", -margin.top - (chartHeight / 2))
+                .attr("y", margin.left / 2 - 10)
+                .attr('transform', "rotate(-90)")
+                .style("font-size", 14)
+                .style("font-family", 'Roboto Condensed')
+                .text("Rating of Wine");
+
+            // Adding Points to Graph
+            chartArea.selectAll("circle.wine").data(chosenDataSet)
+                .join("circle")
+                .attr("class", "wine")
+                .attr("cx", d => priceScale(d['Price']))
+                .attr("cy", d => ratingScale(d['Rating']))
+                .attr("r", 5)
+                .attr("opacity", 0.6)
+                .attr("fill", dataFillColour);
+        }
+
         // Button transition from one question to the next
         function clickedButton(stepNum) {
             // Error conditions for moving to "next"
@@ -411,6 +516,8 @@
 
                 if (stepNum == 1) {
                     findFoodPairing();
+                } else if (stepNum == 3) {
+                    priceGraph();
                 }
             }
         }
