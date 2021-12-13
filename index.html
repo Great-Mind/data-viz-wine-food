@@ -5,39 +5,38 @@
     <script src="https://d3js.org/topojson.v3.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
         .main {
             margin: 3em;
         }
-
+        
         .heading {
             padding: 1em;
             background-color: #E2DAD4;
         }
-
+        
         p {
             font-size: 1.1em;
             font-family: 'Roboto Condensed', sans-serif;
             color: #89192D;
             visibility: hidden;
         }
-
+        
         h1 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 400;
         }
-
+        
         h2 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 700;
             font-size: 40;
             color: #89192D;
         }
-
+        
         h3 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 700;
@@ -45,7 +44,7 @@
             margin-bottom: 2px;
             color: black;
         }
-
+        
         h4 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 300;
@@ -54,34 +53,34 @@
             margin-bottom: 0;
             color: #A5A5A5;
         }
-
+        
         .gridlines .domain {
             display: none;
         }
-
+        
         .gridlines line {
             stroke: #bbb;
         }
-
+        
         .food,
         .wine {
             padding-top: 10px;
             padding-bottom: 10px;
             border: 2px solid white;
         }
-
+        
         .food:hover,
         .wine:hover {
             border: 2px solid #D17076 !important;
             cursor: pointer;
         }
-
+        
         .btn-main {
             text-align: right;
             margin-right: 5%;
             margin-top: 5px;
         }
-
+        
         .button {
             border: none;
             background-color: #8F8F8F;
@@ -97,11 +96,11 @@
             border-radius: 25px;
             box-shadow: 0px 4px 4px 0px #C1C1C1;
         }
-
+        
         .country {
             fill: lightgrey;
         }
-
+        
         .border {
             stroke: rgb(255, 255, 255);
             stroke-width: 1px;
@@ -122,47 +121,37 @@
             <h4>Select a food group below</h4>
             <table style="width: 100%; text-align: center;">
                 <tr>
-                    <td class="food" id="Vegetables" onclick="selectFood(`Vegetables`)"><img
-                            src="/Assets/Vegetables.png" width="120px"><br />
+                    <td class="food" id="Vegetables" onclick="selectFood(`Vegetables`)"><img src="/Assets/Vegetables.png" width="120px"><br />
                         <h4>Vegetables</h4>
                     </td>
-                    <td class="food" id="SoftCheese" onclick="selectFood(`SoftCheese`)"><img
-                            src="/Assets/Soft Cheese.png" width="120px"><br />
+                    <td class="food" id="SoftCheese" onclick="selectFood(`SoftCheese`)"><img src="/Assets/Soft Cheese.png" width="120px"><br />
                         <h4>Soft Cheese</h4>
                     </td>
-                    <td class="food" id="HardCheese" onclick="selectFood(`HardCheese`)"><img
-                            src="/Assets/Hard Cheese.png" width="120px"><br />
+                    <td class="food" id="HardCheese" onclick="selectFood(`HardCheese`)"><img src="/Assets/Hard Cheese.png" width="120px"><br />
                         <h4>Hard Cheese</h4>
                     </td>
-                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="/Assets/Starches.png"
-                            width="120px"><br />
+                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="/Assets/Starches.png" width="120px"><br />
                         <h4>Starches</h4>
                     </td>
-                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="/Assets/Fish.png"
-                            width="120px"><br />
+                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="/Assets/Fish.png" width="120px"><br />
                         <h4>Fish</h4>
                     </td>
                 </tr>
                 <br />
                 <tr>
-                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="/Assets/Shellfish.png"
-                            width="120px"><br />
+                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="/Assets/Shellfish.png" width="120px"><br />
                         <h4>Shellfish</h4>
                     </td>
-                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="/Assets/White Meat.png"
-                            width="120px"><br />
+                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="/Assets/White Meat.png" width="120px"><br />
                         <h4>White Meat</h4>
                     </td>
-                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="/Assets/Red Meat.png"
-                            width="120px"><br />
+                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="/Assets/Red Meat.png" width="120px"><br />
                         <h4>Red Meat</h4>
                     </td>
-                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="/Assets/Cured Meat.png"
-                            width="120px"><br />
+                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="/Assets/Cured Meat.png" width="120px"><br />
                         <h4>Cured Meat</h4>
                     </td>
-                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="/Assets/Dessert.png"
-                            width="120px"><br />
+                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="/Assets/Dessert.png" width="120px"><br />
                         <h4>Dessert</h4>
                     </td>
                 </tr>
@@ -189,7 +178,9 @@
         </div>
         <div id="step-3" style="display: none;">
             <h3>03 | Which country's wine do you prefer? </h3>
-            <div>
+            <br />
+            <div style="text-align: center;">
+                <h4 id="countrySelection"></h4>
                 <svg id="world-map" width="1000" height="600" style="border: 1px solid black;"></svg>
             </div>
             <div class="btn-main">
@@ -262,7 +253,7 @@
         var roseCountriesTop10;
         var sparklingCountriesTop10;
 
-        
+
         // Step 4 Price Chart setup
         const svg = d3.select("svg#chart4");
         const width = svg.attr("width");
@@ -284,11 +275,11 @@
 
         let redWines, whiteWines, roseWines, sparklingWines;
 
-        const requestData = async function () {
-            let redWines = await d3.csv("Red.csv", d3.autoType);
-            let whiteWines = await d3.csv("White.csv", d3.autoType);
-            let roseWines = await d3.csv("Rose.csv", d3.autoType);
-            let sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
+        const requestData = async function() {
+            redWines = await d3.csv("Red.csv", d3.autoType);
+            whiteWines = await d3.csv("White.csv", d3.autoType);
+            roseWines = await d3.csv("Rose.csv", d3.autoType);
+            sparklingWines = await d3.csv("Sparkling.csv", d3.autoType);
 
             /* DATA PROCESSING:
              * For each wine category: Count the number of rows for a country
@@ -412,6 +403,7 @@
                 }
             });
         };
+        requestData(); // Load Data
 
         // --- TRACKING USER SELECTIONS ---
         let selectedFoodItem;
@@ -446,7 +438,7 @@
                 wine.append("img") // Wine images
                     .attr("height", 300)
                     .attr("src", currImgLocation);
-                wine.on("click", function () { // Interactivity on selecting wine
+                wine.on("click", function() { // Interactivity on selecting wine
                     let allWines = d3.selectAll("td");
                     allWines.style("border", "2px solid white"); // Unselect other selections
                     const currSelection = "td#" + availableWines[i];
@@ -477,22 +469,31 @@
             let top10Countries;
             if (selectedWine == "Red") {
                 top10Countries = redCountriesTop10;
+                chosenDataSet = redWines;
             } else if (selectedWine == "Rose") {
                 top10Countries = roseCountriesTop10;
+                chosenDataSet = roseWines;
             } else if (selectedWine == "White") {
                 top10Countries = whiteCountriesTop10;
+                chosenDataSet = whiteWines;
             } else if (selectedWine == "Sparkling") {
                 top10Countries = sparklingCountriesTop10;
+                chosenDataSet = sparklingWines;
             }
             drawMapChart(top10Countries);
         }
 
-        // draw the map
-        const drawMapChart = async function (top10Countries) {
+        // Draw the map - Step 3
+        const drawMapChart = async function(top10Countries) {
             let worldMap = d3.select('#world-map');
             let width = worldMap.attr('width');
             let height = worldMap.attr('height');
-            let padding = { top: 20, right: 20, bottom: 20, left: 20 };
+            let padding = {
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20
+            };
             let mapWidth = width - padding.left - padding.right;
             let mapHeight = height - padding.top - padding.bottom;
             // color scale
@@ -504,13 +505,18 @@
             let world = await d3.json('geography.json');
             let countries = topojson.feature(world, world.objects.countries);
             let countriesMesh = topojson.mesh(world, world.objects.countries);
-            let projection = d3.geoMercator().fitSize([mapWidth, mapHeight], countries);
+            let projection = d3.geoEquirectangular().fitSize([mapWidth, mapHeight], countries);
             let path = d3.geoPath().projection(projection);
 
             // draw map
             let map = worldMap.append("g")
                 .attr('transform', `translate(${padding.left}, ${padding.top})`);
 
+            let countryLabel = d3.select("#countrySelection");
+            countryLabel.style("color", "black");
+            countryLabel.text(`Selected Country: --`);
+            console.log("UNtrimmed data", chosenDataSet);
+            let trimmedDataSet = [];
             map.selectAll('path.state')
                 .data(countries.features)
                 .join('path')
@@ -524,35 +530,39 @@
                         return "lightgrey";
                     }
                 })
-                .on("click", function () {
+                .on("click", function() {
                     let country = d3.select(this).datum().properties.name;
                     if (top10Countries.has(country)) {
                         selectedCountry = country;
-                        alert(country + " is Selected");
+                        countryLabel.text(`Selected Country: ${selectedCountry}`);
+                        chosenDataSet.forEach((item, index) => {
+                            if (item['Country'] == selectedCountry) {
+                                trimmedDataSet.push(item);
+                            };
+                        });
+                        chosenDataSet = trimmedDataSet;
                     }
                 });
+
             map.append('path')
                 .datum(countriesMesh)
                 .attr('class', 'border')
                 .attr('d', path);
         };
+
         // Step 4 price graphs
         function priceGraph() {
             let dataFillColour;
             if (selectedWine == "Red") {
-                chosenDataSet = redWines;
                 dataFillColour = "#db3d13";
             } else if (selectedWine == "Rose") {
-                chosenDataSet = roseWines;
                 dataFillColour = "#f38989";
             } else if (selectedWine == "White") {
-                chosenDataSet = whiteWines;
                 dataFillColour = "#ccccff";
             } else if (selectedWine == "Sparkling") {
-                chosenDataSet = sparklingWines;
                 dataFillColour = "#ffcb12";
             }
-            console.log("DATA IS: ", selectedWine, chosenDataSet);
+            // console.log("DATA IS: ", selectedWine, chosenDataSet);
 
             // Creating Scales
             const priceExtent = d3.extent(chosenDataSet, d => d['Price']);
@@ -657,25 +667,15 @@
 
         // Step 4 to 5 transition
         function filterBasedOnPrice() {
+            let priceFilteredData = [];
             chosenDataSet.forEach((item, index) => {
                 // filter based on price and rating selected
-                if (item["Price"] < startPrice || item["Price"] > endPrice || item["Rating"] < startRating || item["Rating"] > endRating) {
-                    chosenDataSet.splice(index, 1);
+                if (item["Price"] >= startPrice && item["Price"] <= endPrice && item["Rating"] >= startRating && item["Rating"] <= endRating) {
+                    priceFilteredData.push(item);
                 }
             });
-
-            // updating the main data variable after filtering
-            if (selectedWine == "Red") {
-                redWines = chosenDataSet;
-            } else if (selectedWine == "Rose") {
-                roseWines = chosenDataSet;
-            } else if (selectedWine == "White") {
-                whiteWines = chosenDataSet;
-            } else if (selectedWine == "Sparkling") {
-                sparklingWines = chosenDataSet;
-            }
-
-            console.log("After: ", chosenDataSet);
+            chosenDataSet = priceFilteredData;
+            console.log("After price, ", chosenDataSet);
         }
 
         // Button transition from one question to the next
@@ -719,7 +719,6 @@
                 }
             }
         }
-        requestData(); // Load Data
     </script>
 </body>
 
