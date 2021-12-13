@@ -701,7 +701,7 @@
                 if (stepNum !== 6) {
                     nextDivString = "div#step-" + (stepNum + 1);
                 } else {
-                    nextDivString = "div#step-1"; // go back to the start of quiz
+                    location.reload(); // go back to the start of quiz and reset all properties
                 }
 
                 let nextDiv = d3.select(nextDivString);
