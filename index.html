@@ -320,7 +320,7 @@
                 </div>
                 <div class="wine-recommendation-card">
                     <div class="wine-recommendation-card-info" style="text-align: center;">
-                        <p id="wine-recom-name" style="font-weight: 500; font-size: 20; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <p id="wine-recom-name" style="font-weight: 500; font-size: 2.5vw">
                             HOVER OVER A WINE</p>
                         <table style="width: 100%; text-align: center; table-layout: fixed;">
                             <tr>
@@ -384,7 +384,23 @@
             </div>
         </div>
         <div id="step-6" style="display: none;">
-            <h3>Here's your wine, enjoy!</h3>
+            <h3>Here's your ideal wine! Enjoy!</h3>
+            <table class="header-table" style="width: 100%; table-layout: fixed;">
+                <tr>
+                    <td class="foodChoice" style="text-align: center;"></td>
+                    <td class="wineChoice" style="text-align: center;"></td>
+                    <td style="text-align: center;">
+                        <div class="locationChoicePic" style="float:center; text-align: center"></div>
+                        <div class="locationChoiceText" style="float:center; clear: left; text-align: center; margin-top: 5px;"></div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="priceChoicePic" style="float:center"></div>
+                        <div class="priceChoiceText" style="float:center; clear: center; margin-top: 5px;"></div>
+                    </td>
+                </tr>
+            </table>
+            <div class="finalWinePic" style="width: 100%; text-align: center;"></div>
+            <div class="finalWineText" style="width: 100%; text-align: center; margin-top: 20px;"></div>
             <div class="btn-main">
                 <button class="button" onclick="clickedButton(6)">Retake Quiz</button>
             </div>
@@ -1002,6 +1018,54 @@
             return randNumbers;
         }
 
+        // Last step
+        function showFinalWine() {
+            // Displaying choices so far
+            let foodPic = d3.select("td.foodChoice");
+            let currImgLocation = "/Assets/" + readableFoodNames[selectedFoodItem] + ".png";
+            foodPic.append("img") // Food image
+                .attr("height", 100)
+                .attr("src", currImgLocation);
+
+            let winePic = d3.select("td.wineChoice");
+            let currWineImgLocation = "/Assets/" + selectedWine + "_Choice_Icon.png";
+            winePic.append("img") // Wine choice image
+                .attr("height", 100)
+                .attr("src", currWineImgLocation);
+
+            let locationPic = d3.select(".locationChoicePic");
+            locationPic.append("img") // Location pin image
+                .attr("height", 80)
+                .attr("src", "/Assets/Location.png");
+            let locationText = d3.select(".locationChoiceText");
+            locationText.append("text")
+                .style("font-family", "Roboto Condensed")
+                .style("font-size", "18")
+                .text(selectedCountry);
+
+            let pricePic = d3.select(".priceChoicePic");
+            pricePic.append("img") // Price image
+                .attr("height", 80)
+                .attr("src", "/Assets/3 Money Signs.png");
+            let priceText = d3.select(".priceChoiceText");
+            priceText.append("text")
+                .style("font-family", "Roboto Condensed")
+                .style("font-size", "18")
+                .text("$" + finalWineChoice["Price"].toFixed(2));
+
+            let finalWinePic = d3.select(".finalWinePic");
+            let wineImgLocation = "/Assets/" + selectedWine + ".png";
+            finalWinePic.append("img") // Wine choice image
+                .attr("height", 300)
+                .attr("src", wineImgLocation);
+            let finalWineText = d3.select(".finalWineText");
+            finalWineText.append("text")
+                .style("font-family", "Roboto Condensed")
+                .style("font-size", "25")
+                .style("color", "gray")
+                .text(finalWineChoice["Name"]);
+        }
+
         // Button transition from one question to the next
         function clickedButton(stepNum) {
             // Error conditions for moving to "next"
@@ -1052,6 +1116,8 @@
                         errorMessage.style("visibility", "hidden");
                         showRecommendation();
                     }
+                } else if (stepNum == 5) {
+                    showFinalWine();
                 }
             }
         }
