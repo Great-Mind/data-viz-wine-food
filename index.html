@@ -583,6 +583,7 @@
         let selectedPriceRange;
         let chosenDataSet;
         let startPrice, endPrice, startRating, endRating;
+        let recommendationRefreshCount = 0;
         let finalWineChoice;
 
         // Step 1: Selecting food item
@@ -893,6 +894,7 @@
 
         // Step 5 - Show recommendations
         function showRecommendation() {
+            recommendationRefreshCount += 1;
             finalWineChoice = undefined; // reinitialize the final choice
 
             let randomNumbers = [];
@@ -967,27 +969,29 @@
             }
 
             // displaying food, wine, and location choices
-            let choiceRow = d3.select(".pastChoices-5");
-            let foodPic = choiceRow.append("td");
-            let currImgLocation = "/Assets/" + readableFoodNames[selectedFoodItem] + ".png";
-            foodPic.append("img") // Food image
-                .attr("height", 60)
-                .attr("src", currImgLocation);
-            let winePic = choiceRow.append("td");
-            let currWineImgLocation = "/Assets/" + selectedWine + "_Choice_Icon.png";
-            winePic.append("img") // Wine choice image
-                .attr("height", 60)
-                .attr("src", currWineImgLocation);
-            let locationIcon = choiceRow.append("td");
-            let locationRow1 = locationIcon.append("tr");
-            locationRow1.append("img") // Location pin image
-                .attr("height", 50)
-                .attr("src", "/Assets/Location.png");
-            let locationRow2 = locationIcon.append("tr");
-            locationRow2.append("text")
-                .style("font-family", "Roboto Condensed")
-                .style("font-size", "11")
-                .text(selectedCountry);
+            if (recommendationRefreshCount <= 1) {
+                let choiceRow = d3.select(".pastChoices-5");
+                let foodPic = choiceRow.append("td");
+                let currImgLocation = "/Assets/" + readableFoodNames[selectedFoodItem] + ".png";
+                foodPic.append("img") // Food image
+                    .attr("height", 60)
+                    .attr("src", currImgLocation);
+                let winePic = choiceRow.append("td");
+                let currWineImgLocation = "/Assets/" + selectedWine + "_Choice_Icon.png";
+                winePic.append("img") // Wine choice image
+                    .attr("height", 60)
+                    .attr("src", currWineImgLocation);
+                let locationIcon = choiceRow.append("td");
+                let locationRow1 = locationIcon.append("tr");
+                locationRow1.append("img") // Location pin image
+                    .attr("height", 50)
+                    .attr("src", "/Assets/Location.png");
+                let locationRow2 = locationIcon.append("tr");
+                locationRow2.append("text")
+                    .style("font-family", "Roboto Condensed")
+                    .style("font-size", "11")
+                    .text(selectedCountry);
+            }
         }
 
         function get4RandomNumbers(N) {
