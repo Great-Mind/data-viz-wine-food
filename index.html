@@ -5,38 +5,39 @@
     <script src="https://d3js.org/topojson.v3.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
         .main {
             margin: 3em;
         }
-        
+
         .heading {
             padding: 1em;
             background-color: #E2DAD4;
         }
-        
-        p {
+
+        .error-message {
             font-size: 1.1em;
             font-family: 'Roboto Condensed', sans-serif;
             color: #89192D;
             visibility: hidden;
         }
-        
+
         h1 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 400;
         }
-        
+
         h2 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 700;
             font-size: 40;
             color: #89192D;
         }
-        
+
         h3 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 700;
@@ -44,7 +45,7 @@
             margin-bottom: 2px;
             color: black;
         }
-        
+
         h4 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 300;
@@ -53,34 +54,34 @@
             margin-bottom: 0;
             color: #A5A5A5;
         }
-        
+
         .gridlines .domain {
             display: none;
         }
-        
+
         .gridlines line {
             stroke: #bbb;
         }
-        
+
         .food,
         .wine {
             padding-top: 10px;
             padding-bottom: 10px;
             border: 2px solid white;
         }
-        
+
         .food:hover,
         .wine:hover {
             border: 2px solid #D17076 !important;
             cursor: pointer;
         }
-        
+
         .btn-main {
             text-align: right;
             margin-right: 5%;
             margin-top: 5px;
         }
-        
+
         .button {
             border: none;
             background-color: #8F8F8F;
@@ -96,15 +97,55 @@
             border-radius: 25px;
             box-shadow: 0px 4px 4px 0px #C1C1C1;
         }
-        
+
         .country {
             fill: lightgrey;
         }
-        
+
         .border {
             stroke: rgb(255, 255, 255);
             stroke-width: 1px;
             fill: none;
+        }
+
+        .wine-recommendation-card {
+            display: inline;
+            width: 30%;
+            height: 284px;
+            border-radius: 20px;
+            padding: 20px;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+
+        .wine-recommendation-card-info {
+            background-color: lightgrey;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .wine-recommendation-card p {
+            margin-top: 0;
+        }
+
+        .wine-name {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 300;
+            font-size: 20;
+            color: #A5A5A5;
+        }
+
+        .random-btn {
+            background-color: #82A9CF;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 30px 10px 30px;
+            padding-left: 30px;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 400;
+            font-size: 14;
+            color: white;
+            width: 100%;
         }
     </style>
 
@@ -121,43 +162,53 @@
             <h4>Select a food group below</h4>
             <table style="width: 100%; text-align: center;">
                 <tr>
-                    <td class="food" id="Vegetables" onclick="selectFood(`Vegetables`)"><img src="/Assets/Vegetables.png" width="120px"><br />
+                    <td class="food" id="Vegetables" onclick="selectFood(`Vegetables`)"><img
+                            src="/Assets/Vegetables.png" width="120px"><br />
                         <h4>Vegetables</h4>
                     </td>
-                    <td class="food" id="SoftCheese" onclick="selectFood(`SoftCheese`)"><img src="/Assets/Soft Cheese.png" width="120px"><br />
+                    <td class="food" id="SoftCheese" onclick="selectFood(`SoftCheese`)"><img
+                            src="/Assets/Soft Cheese.png" width="120px"><br />
                         <h4>Soft Cheese</h4>
                     </td>
-                    <td class="food" id="HardCheese" onclick="selectFood(`HardCheese`)"><img src="/Assets/Hard Cheese.png" width="120px"><br />
+                    <td class="food" id="HardCheese" onclick="selectFood(`HardCheese`)"><img
+                            src="/Assets/Hard Cheese.png" width="120px"><br />
                         <h4>Hard Cheese</h4>
                     </td>
-                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="/Assets/Starches.png" width="120px"><br />
+                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="/Assets/Starches.png"
+                            width="120px"><br />
                         <h4>Starches</h4>
                     </td>
-                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="/Assets/Fish.png" width="120px"><br />
+                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="/Assets/Fish.png"
+                            width="120px"><br />
                         <h4>Fish</h4>
                     </td>
                 </tr>
                 <br />
                 <tr>
-                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="/Assets/Shellfish.png" width="120px"><br />
+                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="/Assets/Shellfish.png"
+                            width="120px"><br />
                         <h4>Shellfish</h4>
                     </td>
-                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="/Assets/White Meat.png" width="120px"><br />
+                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="/Assets/White Meat.png"
+                            width="120px"><br />
                         <h4>White Meat</h4>
                     </td>
-                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="/Assets/Red Meat.png" width="120px"><br />
+                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="/Assets/Red Meat.png"
+                            width="120px"><br />
                         <h4>Red Meat</h4>
                     </td>
-                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="/Assets/Cured Meat.png" width="120px"><br />
+                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="/Assets/Cured Meat.png"
+                            width="120px"><br />
                         <h4>Cured Meat</h4>
                     </td>
-                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="/Assets/Dessert.png" width="120px"><br />
+                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="/Assets/Dessert.png"
+                            width="120px"><br />
                         <h4>Dessert</h4>
                     </td>
                 </tr>
             </table>
             <div class="btn-main">
-                <p id="error-1">** Please select atleast one food to proceed **</p>
+                <p id="error-1" class="error-message">** Please select atleast one food to proceed **</p>
                 <button class="button" onclick="clickedButton(1)">Next<i class="fa fa-arrow-circle-o-right fa-lg"
                         aria-hidden="true" style="padding-left: 10px;"></i></button>
             </div>
@@ -171,20 +222,21 @@
                 </tr>
             </table>
             <div class="btn-main">
-                <p id="error-2">** Please select atleast one wine to proceed **</p>
+                <p id="error-2" class="error-message">** Please select atleast one wine to proceed **</p>
                 <button class="button" onclick="clickedButton(2)">Next<i class="fa fa-arrow-circle-o-right fa-lg"
                         aria-hidden="true" style="padding-left: 10px;"></i></button>
             </div>
         </div>
         <div id="step-3" style="display: none;">
             <h3>03 | Which country's wine do you prefer? </h3>
+            <h4>Select a country below</h4>
             <br />
             <div style="text-align: center;">
                 <h4 id="countrySelection"></h4>
                 <svg id="world-map" width="1000" height="600" style="border: 1px solid black;"></svg>
             </div>
             <div class="btn-main">
-                <p id="error-3">** Please select atleast one country to proceed **</p>
+                <p id="error-3" class="error-message">** Please select atleast one country to proceed **</p>
                 <button class="button" onclick="clickedButton(3)">Next<i class="fa fa-arrow-circle-o-right fa-lg"
                         aria-hidden="true" style="padding-left: 10px;"></i></button>
             </div>
@@ -192,22 +244,63 @@
         <div id="step-4" style="display: none;">
             <h3>04 | What is your price point? </h3>
             <h4>Drag over your desired price range</h4>
-            <br/>
+            <br />
             <div style="text-align: center;">
                 <h4 id="priceRange"></h4>
                 <h4 id="ratingRange"></h4>
                 <svg id="chart4" height="500" width="850"></svg>
             </div>
             <div class="btn-main">
-                <p id="error-4">** Please indicate a price range to proceed **</p>
+                <p id="error-4" class="error-message">** Please indicate a price range to proceed **</p>
                 <button class="button" onclick="clickedButton(4)">Next<i class="fa fa-arrow-circle-o-right fa-lg"
                         aria-hidden="true" style="padding-left: 10px;"></i></button>
             </div>
         </div>
         <div id="step-5" style="display: none;">
             <h3>05 | Which bottle catches your eye? </h3>
+            <h4>Here are your recommendations</h4>
+            <br />
+            <div style="display: flex;">
+                <div style="width: 70%">
+                    <div>
+                        <table style="width: 100%; text-align: center;">
+                            <tr class="wineRecommendation">
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="display: flex;justify-content: space-around">
+                        <div class="wine-name" id="wine-name-0"
+                            style="width: 22%; overflow: hidden; text-overflow: ellipsis; text-align: center;">wine name
+                        </div>
+                        <div class="wine-name" id="wine-name-1"
+                            style="width: 22%; overflow: hidden; text-overflow: ellipsis; text-align: center;">wine name
+                        </div>
+                        <div class="wine-name" id="wine-name-2"
+                            style="width: 22%; overflow: hidden; text-overflow: ellipsis; text-align: center;">wine name
+                        </div>
+                        <div class="wine-name" id="wine-name-3"
+                            style="width: 22%; overflow: hidden; text-overflow: ellipsis; text-align: center;">wine name
+                        </div>
+                    </div>
+                </div>
+                <div class="wine-recommendation-card">
+                    <div class="wine-recommendation-card-info">
+                        <p id="wine-recom-name"
+                            style="font-weight: 500; font-size: 25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            Wine Name</p>
+                        <p id="wine-recom-country" style="font-weight: 300; font-size: 15;">Country | </p>
+                        <p id="wine-recom-region" style="font-weight: 300; font-size: 15;">Region | </p>
+                        <p id="wine-recom-winery" style="font-weight: 300; font-size: 15;">Winery | </p>
+                        <p id="wine-recom-year" style="font-weight: 300; font-size: 15;">Year | </p>
+                        <p id="wine-recom-price" style="font-weight: 300; font-size: 15;">Price | </p>
+                        <p id="wine-recom-rating" style="font-weight: 300; font-size: 15;">Rating | </p>
+                    </div>
+                    <button class="random-btn" id="random-btn" onclick="showRecommendation()">Show Me More</button>
+                </div>
+            </div>
+
             <div class="btn-main">
-                <p id="error-5">** Please select a bottle to proceed **</p>
+                <p id="error-5" class="error-message">** Please select a bottle to proceed **</p>
                 <button class="button" onclick="clickedButton(5)">Next<i class="fa fa-arrow-circle-o-right fa-lg"
                         aria-hidden="true" style="padding-left: 10px;"></i></button>
             </div>
@@ -275,7 +368,7 @@
 
         let redWines, whiteWines, roseWines, sparklingWines;
 
-        const requestData = async function() {
+        const requestData = async function () {
             redWines = await d3.csv("Red.csv", d3.autoType);
             whiteWines = await d3.csv("White.csv", d3.autoType);
             roseWines = await d3.csv("Rose.csv", d3.autoType);
@@ -438,7 +531,7 @@
                 wine.append("img") // Wine images
                     .attr("height", 300)
                     .attr("src", currImgLocation);
-                wine.on("click", function() { // Interactivity on selecting wine
+                wine.on("click", function () { // Interactivity on selecting wine
                     let allWines = d3.selectAll("td");
                     allWines.style("border", "2px solid white"); // Unselect other selections
                     const currSelection = "td#" + availableWines[i];
@@ -484,7 +577,7 @@
         }
 
         // Draw the map - Step 3
-        const drawMapChart = async function(top10Countries) {
+        const drawMapChart = async function (top10Countries) {
             let worldMap = d3.select('#world-map');
             let width = worldMap.attr('width');
             let height = worldMap.attr('height');
@@ -515,7 +608,7 @@
             let countryLabel = d3.select("#countrySelection");
             countryLabel.style("color", "black");
             countryLabel.text(`Selected Country: --`);
-            console.log("UNtrimmed data", chosenDataSet);
+
             let trimmedDataSet = [];
             map.selectAll('path.state')
                 .data(countries.features)
@@ -530,7 +623,7 @@
                         return "lightgrey";
                     }
                 })
-                .on("click", function() {
+                .on("click", function () {
                     let country = d3.select(this).datum().properties.name;
                     if (top10Countries.has(country)) {
                         selectedCountry = country;
@@ -562,7 +655,6 @@
             } else if (selectedWine == "Sparkling") {
                 dataFillColour = "#ffcb12";
             }
-            // console.log("DATA IS: ", selectedWine, chosenDataSet);
 
             // Creating Scales
             const priceExtent = d3.extent(chosenDataSet, d => d['Price']);
@@ -583,11 +675,11 @@
                 .tickSize(-chartHeight - 10)
                 .tickFormat("")
             annotations.append("g")
-                .attr("transform", `translate(${margin.left},${chartHeight+margin.top+10})`)
+                .attr("transform", `translate(${margin.left},${chartHeight + margin.top + 10})`)
                 .call(bottomAxis);
             annotations.append("g")
                 .attr("class", "x gridlines")
-                .attr("transform", `translate(${margin.left},${chartHeight+margin.top+10})`)
+                .attr("transform", `translate(${margin.left},${chartHeight + margin.top + 10})`)
                 .call(bottomGridlines);
 
             svg.append("text") // Axis label
@@ -606,11 +698,11 @@
                 .tickFormat("")
             annotations.append("g")
                 .attr("class", "y axis")
-                .attr("transform", `translate(${margin.left-10},${margin.top})`)
+                .attr("transform", `translate(${margin.left - 10},${margin.top})`)
                 .call(leftAxis)
             annotations.append("g")
                 .attr("class", "y gridlines")
-                .attr("transform", `translate(${margin.left-10},${margin.top})`)
+                .attr("transform", `translate(${margin.left - 10},${margin.top})`)
                 .call(leftGridlines);
 
             svg.append("text") // Axis label
@@ -675,7 +767,55 @@
                 }
             });
             chosenDataSet = priceFilteredData;
-            console.log("After price, ", chosenDataSet);
+        }
+
+        // Step 5 show recommendation
+        function showRecommendation() {
+            let randomNumberSet = get4RandomNumbers(chosenDataSet.length);
+            let randomNumbers = Array.from(randomNumberSet);
+
+            let tableRow = d3.select(".wineRecommendation").html("");
+            for (let i = 0; i < randomNumbers.length; i++) {
+                let wineInfo = chosenDataSet[randomNumbers[i]];
+                // Displaying the correct wines
+                let wine = tableRow
+                    .append("td")
+                    .attr("class", "wine");
+                let currImgLocation = "/Assets/" + selectedWine + ".png";
+                wine.append("img") // Wine images
+                    .attr("height", 300)
+                    .attr("src", currImgLocation);
+
+                wine.on("mouseover", function () {
+                    let wineRcomName = d3.select("#wine-recom-name");
+                    let wineRcomCountry = d3.select("#wine-recom-country");
+                    let wineRcomYear = d3.select("#wine-recom-year");
+                    let wineRcomPrice = d3.select("#wine-recom-price");
+                    let wineRcomRating = d3.select("#wine-recom-rating");
+                    let wineRcomRegion = d3.select("#wine-recom-region");
+                    let wineRcomWinery = d3.select("#wine-recom-winery");
+
+                    wineRcomName.text(wineInfo.Name);
+                    wineRcomCountry.text("Country | " + wineInfo.Country);
+                    wineRcomRegion.text("Region | " + wineInfo.Region);
+                    wineRcomWinery.text("Winery | " + wineInfo.Winery);
+                    wineRcomYear.text("Year | " + wineInfo.Year);
+                    wineRcomPrice.text("Price | " + wineInfo.Price.toFixed(2) + " USD");
+                    wineRcomRating.text("Rating | " + wineInfo.Rating);
+                });
+
+                // wine label
+
+                d3.select("#wine-name-" + i).text(wineInfo.Name);
+            }
+        }
+
+        function get4RandomNumbers(N) {
+            let randNumbers = new Set();
+            while (randNumbers.size < 4 && randNumbers.size < N) {
+                randNumbers.add(Math.floor(Math.random() * N));
+            }
+            return randNumbers;
         }
 
         // Button transition from one question to the next
@@ -716,6 +856,7 @@
                     priceGraph();
                 } else if (stepNum == 4) {
                     filterBasedOnPrice();
+                    showRecommendation();
                 }
             }
         }
