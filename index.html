@@ -194,45 +194,45 @@
             <table style="width: 100%; text-align: center;">
                 <tr>
                     <td class="food" id="Vegetables" onclick="selectFood(`Vegetables`)"><img
-                            src="/Assets/Vegetables.png" width="120px"><br />
+                            src="./Assets/Vegetables.png" width="120px"><br />
                         <h4>Vegetables</h4>
                     </td>
                     <td class="food" id="SoftCheese" onclick="selectFood(`SoftCheese`)"><img
-                            src="/Assets/Soft Cheese.png" width="120px"><br />
+                            src="./Assets/Soft Cheese.png" width="120px"><br />
                         <h4>Soft Cheese</h4>
                     </td>
                     <td class="food" id="HardCheese" onclick="selectFood(`HardCheese`)"><img
-                            src="/Assets/Hard Cheese.png" width="120px"><br />
+                            src="./Assets/Hard Cheese.png" width="120px"><br />
                         <h4>Hard Cheese</h4>
                     </td>
-                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="/Assets/Starches.png"
+                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="./Assets/Starches.png"
                             width="120px"><br />
                         <h4>Starches</h4>
                     </td>
-                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="/Assets/Fish.png"
+                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="./Assets/Fish.png"
                             width="120px"><br />
                         <h4>Fish</h4>
                     </td>
                 </tr>
                 <br />
                 <tr>
-                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="/Assets/Shellfish.png"
+                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="./Assets/Shellfish.png"
                             width="120px"><br />
                         <h4>Shellfish</h4>
                     </td>
-                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="/Assets/White Meat.png"
+                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="./Assets/White Meat.png"
                             width="120px"><br />
                         <h4>White Meat</h4>
                     </td>
-                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="/Assets/Red Meat.png"
+                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="./Assets/Red Meat.png"
                             width="120px"><br />
                         <h4>Red Meat</h4>
                     </td>
-                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="/Assets/Cured Meat.png"
+                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="./Assets/Cured Meat.png"
                             width="120px"><br />
                         <h4>Cured Meat</h4>
                     </td>
-                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="/Assets/Dessert.png"
+                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="./Assets/Dessert.png"
                             width="120px"><br />
                         <h4>Dessert</h4>
                     </td>
@@ -644,7 +644,7 @@
                 let wine = tableRow.append("td")
                     .attr("class", "wine")
                     .attr("id", availableWines[i]);
-                let currImgLocation = "/Assets/" + availableWines[i] + ".png";
+                let currImgLocation = "./Assets/" + availableWines[i] + ".png";
                 wine.append("img") // Wine images
                     .attr("height", 300)
                     .attr("src", currImgLocation);
@@ -675,7 +675,7 @@
             // displaying food choice
             let choiceRow = d3.select(".pastChoices-2");
             let foodPic = choiceRow.append("td");
-            let currImgLocation = "/Assets/" + readableFoodNames[selectedFoodItem] + ".png";
+            let currImgLocation = "./Assets/" + readableFoodNames[selectedFoodItem] + ".png";
             foodPic.append("img") // Wine images
                 .attr("height", 60)
                 .attr("src", currImgLocation);
@@ -769,12 +769,12 @@
             // displaying food and wine choices
             let choiceRow = d3.select(".pastChoices-3");
             let foodPic = choiceRow.append("td");
-            let currImgLocation = "/Assets/" + readableFoodNames[selectedFoodItem] + ".png";
+            let currImgLocation = "./Assets/" + readableFoodNames[selectedFoodItem] + ".png";
             foodPic.append("img") // Food image
                 .attr("height", 60)
                 .attr("src", currImgLocation);
             let winePic = choiceRow.append("td");
-            let currWineImgLocation = "/Assets/" + selectedWine + "_Choice_Icon.png";
+            let currWineImgLocation = "./Assets/" + selectedWine + "_Choice_Icon.png";
             winePic.append("img") // Wine choice image
                 .attr("height", 60)
                 .attr("src", currWineImgLocation);
@@ -942,12 +942,12 @@
             // displaying food, wine, and location choices
             let choiceRow = d3.select(".pastChoices-4");
             let foodPic = choiceRow.append("td");
-            let currImgLocation = "/Assets/" + readableFoodNames[selectedFoodItem] + ".png";
+            let currImgLocation = "./Assets/" + readableFoodNames[selectedFoodItem] + ".png";
             foodPic.append("img") // Food image
                 .attr("height", 60)
                 .attr("src", currImgLocation);
             let winePic = choiceRow.append("td");
-            let currWineImgLocation = "/Assets/" + selectedWine + "_Choice_Icon.png";
+            let currWineImgLocation = "./Assets/" + selectedWine + "_Choice_Icon.png";
             winePic.append("img") // Wine choice image
                 .attr("height", 60)
                 .attr("src", currWineImgLocation);
@@ -955,7 +955,7 @@
             let locationRow1 = locationIcon.append("tr");
             locationRow1.append("img") // Location pin image
                 .attr("height", 50)
-                .attr("src", "/Assets/Location.png");
+                .attr("src", "./Assets/Location.png");
             let locationRow2 = locationIcon.append("tr");
             locationRow2.append("text")
                 .style("font-family", "Roboto Condensed")
@@ -998,7 +998,7 @@
                 let wine = tableRow
                     .append("td")
                     .attr("class", "wine");
-                let currImgLocation = "/Assets/" + selectedWine + ".png";
+                let currImgLocation = "./Assets/" + selectedWine + ".png";
                 wine.append("img") // Wine images
                     .attr("height", 300)
                     .attr("src", currImgLocation);
@@ -1055,12 +1055,12 @@
             if (recommendationRefreshCount <= 1) {
                 let choiceRow = d3.select(".pastChoices-5");
                 let foodPic = choiceRow.append("td");
-                let currImgLocation = "/Assets/" + readableFoodNames[selectedFoodItem] + ".png";
+                let currImgLocation = "./Assets/" + readableFoodNames[selectedFoodItem] + ".png";
                 foodPic.append("img") // Food image
                     .attr("height", 60)
                     .attr("src", currImgLocation);
                 let winePic = choiceRow.append("td");
-                let currWineImgLocation = "/Assets/" + selectedWine + "_Choice_Icon.png";
+                let currWineImgLocation = "./Assets/" + selectedWine + "_Choice_Icon.png";
                 winePic.append("img") // Wine choice image
                     .attr("height", 60)
                     .attr("src", currWineImgLocation);
@@ -1068,7 +1068,7 @@
                 let locationRow1 = locationIcon.append("tr");
                 locationRow1.append("img") // Location pin image
                     .attr("height", 50)
-                    .attr("src", "/Assets/Location.png");
+                    .attr("src", "./Assets/Location.png");
                 let locationRow2 = locationIcon.append("tr");
                 locationRow2.append("text")
                     .style("font-family", "Roboto Condensed")
@@ -1089,13 +1089,13 @@
         function showFinalWine() {
             // Displaying choices so far
             let foodPic = d3.select("td.foodChoice");
-            let currImgLocation = "/Assets/" + readableFoodNames[selectedFoodItem] + ".png";
+            let currImgLocation = "./Assets/" + readableFoodNames[selectedFoodItem] + ".png";
             foodPic.append("img") // Food image
                 .attr("height", 100)
                 .attr("src", currImgLocation);
 
             let winePic = d3.select("td.wineChoice");
-            let currWineImgLocation = "/Assets/" + selectedWine + "_Choice_Icon.png";
+            let currWineImgLocation = "./Assets/" + selectedWine + "_Choice_Icon.png";
             winePic.append("img") // Wine choice image
                 .attr("height", 100)
                 .attr("src", currWineImgLocation);
@@ -1103,7 +1103,7 @@
             let locationPic = d3.select(".locationChoicePic");
             locationPic.append("img") // Location pin image
                 .attr("height", 80)
-                .attr("src", "/Assets/Location.png");
+                .attr("src", "./Assets/Location.png");
             let locationText = d3.select(".locationChoiceText");
             locationText.append("text")
                 .style("font-family", "Roboto Condensed")
@@ -1113,7 +1113,7 @@
             let pricePic = d3.select(".priceChoicePic");
             pricePic.append("img") // Price image
                 .attr("height", 80)
-                .attr("src", "/Assets/3 Money Signs.png");
+                .attr("src", "./Assets/3 Money Signs.png");
             let priceText = d3.select(".priceChoiceText");
             priceText.append("text")
                 .style("font-family", "Roboto Condensed")
@@ -1121,7 +1121,7 @@
                 .text("$" + finalWineChoice["Price"].toFixed(2));
 
             let finalWinePic = d3.select(".finalWinePic");
-            let wineImgLocation = "/Assets/" + selectedWine + ".png";
+            let wineImgLocation = "./Assets/" + selectedWine + ".png";
             finalWinePic.append("img") // Wine choice image
                 .attr("height", 300)
                 .attr("src", wineImgLocation);
