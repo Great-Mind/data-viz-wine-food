@@ -5,42 +5,43 @@
     <script src="https://d3js.org/topojson.v3.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
         .main {
             margin: 3em;
         }
-        
+
         .heading {
             padding: 1em;
             background-color: #E2DAD4;
         }
-        
+
         .header-table {
             margin-top: 25px;
         }
-        
+
         .error-message {
             font-size: 1.1em;
             font-family: 'Roboto Condensed', sans-serif;
             color: #89192D;
             visibility: hidden;
         }
-        
+
         h1 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 400;
         }
-        
+
         h2 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 700;
             font-size: 40;
             color: #89192D;
         }
-        
+
         h3 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 700;
@@ -48,7 +49,7 @@
             margin-bottom: 2px;
             color: black;
         }
-        
+
         h4 {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 300;
@@ -57,41 +58,41 @@
             margin-bottom: 0;
             color: #A5A5A5;
         }
-        
+
         p {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 300;
             font-size: 16;
             color: black;
         }
-        
+
         .gridlines .domain {
             display: none;
         }
-        
+
         .gridlines line {
             stroke: #bbb;
         }
-        
+
         .food,
         .wine {
             padding-top: 10px;
             padding-bottom: 10px;
             border: 2px solid white;
         }
-        
+
         .food:hover,
         .wine:hover {
             border: 2px solid #D17076 !important;
             cursor: pointer;
         }
-        
+
         .btn-main {
             text-align: right;
             margin-right: 5%;
             margin-top: 5px;
         }
-        
+
         .button {
             border: none;
             background-color: #8F8F8F;
@@ -107,17 +108,17 @@
             border-radius: 25px;
             box-shadow: 0px 4px 4px 0px #C1C1C1;
         }
-        
+
         .country {
             fill: lightgrey;
         }
-        
+
         .border {
             stroke: rgb(255, 255, 255);
             stroke-width: 1px;
             fill: none;
         }
-        
+
         .wine-recommendation-card {
             display: inline;
             width: 30%;
@@ -126,29 +127,29 @@
             padding: 20px;
             font-family: 'Roboto Condensed', sans-serif;
         }
-        
+
         .table-data {
             border: none !important;
         }
-        
+
         .wine-recommendation-card-info {
             background-color: lightgrey;
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        
+
         .wine-recommendation-card p {
             margin-top: 0;
         }
-        
+
         .wine-name {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 300;
             font-size: 20;
             color: #A5A5A5;
         }
-        
+
         .wineNameLabel {
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 300;
@@ -156,7 +157,7 @@
             color: black;
             margin-top: 15px;
         }
-        
+
         .random-btn {
             background-color: #82A9CF;
             border: none;
@@ -169,6 +170,13 @@
             color: white;
             width: 100%;
             cursor: pointer;
+        }
+
+        .legendTitle {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 300;
+            font-size: 20;
+            color: #A5A5A5;
         }
     </style>
 
@@ -185,37 +193,47 @@
             <h4>Select a food group below</h4>
             <table style="width: 100%; text-align: center;">
                 <tr>
-                    <td class="food" id="Vegetables" onclick="selectFood(`Vegetables`)"><img src="/Assets/Vegetables.png" width="120px"><br />
+                    <td class="food" id="Vegetables" onclick="selectFood(`Vegetables`)"><img
+                            src="/Assets/Vegetables.png" width="120px"><br />
                         <h4>Vegetables</h4>
                     </td>
-                    <td class="food" id="SoftCheese" onclick="selectFood(`SoftCheese`)"><img src="/Assets/Soft Cheese.png" width="120px"><br />
+                    <td class="food" id="SoftCheese" onclick="selectFood(`SoftCheese`)"><img
+                            src="/Assets/Soft Cheese.png" width="120px"><br />
                         <h4>Soft Cheese</h4>
                     </td>
-                    <td class="food" id="HardCheese" onclick="selectFood(`HardCheese`)"><img src="/Assets/Hard Cheese.png" width="120px"><br />
+                    <td class="food" id="HardCheese" onclick="selectFood(`HardCheese`)"><img
+                            src="/Assets/Hard Cheese.png" width="120px"><br />
                         <h4>Hard Cheese</h4>
                     </td>
-                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="/Assets/Starches.png" width="120px"><br />
+                    <td class="food" id="Starches" onclick="selectFood(`Starches`)"><img src="/Assets/Starches.png"
+                            width="120px"><br />
                         <h4>Starches</h4>
                     </td>
-                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="/Assets/Fish.png" width="120px"><br />
+                    <td class="food" id="Fish" onclick="selectFood(`Fish`)"><img src="/Assets/Fish.png"
+                            width="120px"><br />
                         <h4>Fish</h4>
                     </td>
                 </tr>
                 <br />
                 <tr>
-                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="/Assets/Shellfish.png" width="120px"><br />
+                    <td class="food" id="Shellfish" onclick="selectFood(`Shellfish`)"><img src="/Assets/Shellfish.png"
+                            width="120px"><br />
                         <h4>Shellfish</h4>
                     </td>
-                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="/Assets/White Meat.png" width="120px"><br />
+                    <td class="food" id="WhiteMeat" onclick="selectFood(`WhiteMeat`)"><img src="/Assets/White Meat.png"
+                            width="120px"><br />
                         <h4>White Meat</h4>
                     </td>
-                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="/Assets/Red Meat.png" width="120px"><br />
+                    <td class="food" id="RedMeat" onclick="selectFood(`RedMeat`)"><img src="/Assets/Red Meat.png"
+                            width="120px"><br />
                         <h4>Red Meat</h4>
                     </td>
-                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="/Assets/Cured Meat.png" width="120px"><br />
+                    <td class="food" id="CuredMeat" onclick="selectFood(`CuredMeat`)"><img src="/Assets/Cured Meat.png"
+                            width="120px"><br />
                         <h4>Cured Meat</h4>
                     </td>
-                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="/Assets/Dessert.png" width="120px"><br />
+                    <td class="food" id="Dessert" onclick="selectFood(`Dessert`)"><img src="/Assets/Dessert.png"
+                            width="120px"><br />
                         <h4>Dessert</h4>
                     </td>
                 </tr>
@@ -265,6 +283,7 @@
             <div style="text-align: center;">
                 <h4 id="countrySelection"></h4>
                 <svg id="world-map" width="1000" height="600" style="border: 1px solid black;"></svg>
+                <div id="world-map-legend"></div>
             </div>
             <div class="btn-main">
                 <p id="error-3" class="error-message">** Please select atleast one country to proceed **</p>
@@ -373,8 +392,9 @@
                             </tr>
                         </table>
                     </div>
-                    <button class="random-btn" style="display: none;" id="random-btn" onclick="showRecommendation()"><i class="fa fa-refresh fa-lg"
-                        aria-hidden="true" style="padding-right: 10px;"></i>Show Me More</button>
+                    <button class="random-btn" style="display: none;" id="random-btn" onclick="showRecommendation()"><i
+                            class="fa fa-refresh fa-lg" aria-hidden="true" style="padding-right: 10px;"></i>Show Me
+                        More</button>
                 </div>
             </div>
             <div class="btn-main">
@@ -391,7 +411,8 @@
                     <td class="wineChoice" style="text-align: center;"></td>
                     <td style="text-align: center;">
                         <div class="locationChoicePic" style="float:center; text-align: center"></div>
-                        <div class="locationChoiceText" style="float:center; clear: left; text-align: center; margin-top: 5px;"></div>
+                        <div class="locationChoiceText"
+                            style="float:center; clear: left; text-align: center; margin-top: 5px;"></div>
                     </td>
                     <td style="text-align: center;">
                         <div class="priceChoicePic" style="float:center"></div>
@@ -462,7 +483,7 @@
 
         let redWines, whiteWines, roseWines, sparklingWines;
 
-        const requestData = async function() {
+        const requestData = async function () {
             redWines = await d3.csv("Red.csv", d3.autoType);
             whiteWines = await d3.csv("White.csv", d3.autoType);
             roseWines = await d3.csv("Rose.csv", d3.autoType);
@@ -627,7 +648,7 @@
                 wine.append("img") // Wine images
                     .attr("height", 300)
                     .attr("src", currImgLocation);
-                wine.on("click", function() { // Interactivity on selecting wine
+                wine.on("click", function () { // Interactivity on selecting wine
                     let allWines = d3.selectAll("td");
                     allWines.style("border", "2px solid white"); // Unselect other selections
                     const currSelection = "td#" + availableWines[i];
@@ -680,7 +701,7 @@
         }
 
         // Draw the map - Step 3
-        const drawMapChart = async function(top10Countries) {
+        const drawMapChart = async function (top10Countries) {
             let worldMap = d3.select('#world-map');
             let width = worldMap.attr('width');
             let height = worldMap.attr('height');
@@ -726,7 +747,7 @@
                         return "lightgrey";
                     }
                 })
-                .on("click", function() {
+                .on("click", function () {
                     let country = d3.select(this).datum().properties.name;
                     if (top10Countries.has(country)) {
                         selectedCountry = country;
@@ -757,6 +778,52 @@
             winePic.append("img") // Wine choice image
                 .attr("height", 60)
                 .attr("src", currWineImgLocation);
+
+            // displaying legend
+            var svgLegend = d3.select('#world-map-legend').append('svg');
+            var defs = svgLegend.append('defs');
+            var linearGradient = defs.append('linearGradient')
+                .attr('id', 'linear-gradient');
+
+            // horizontal gradient
+            linearGradient
+                .attr("x1", "0%")
+                .attr("y1", "0%")
+                .attr("x2", "100%")
+                .attr("y2", "0%");
+
+            // append multiple color stops by using D3's data/enter step
+            linearGradient.selectAll("stop")
+                .data([
+                    { offset: "0%", color: "#44A8DE" },
+                    { offset: "100%", color: "#1F134D" }
+                ])
+                .enter().append("stop")
+                .attr("offset", function (d) {
+                    return d.offset;
+                })
+                .attr("stop-color", function (d) {
+                    return d.color;
+                });
+
+            // append title
+            svgLegend.append("text")
+                .attr("class", "legendTitle")
+                .attr("x", 0)
+                .attr("y", 20)
+                .style("text-anchor", "left")
+                .text("Number of Brands (0 - 2650)");
+
+            // draw the rectangle and fill with gradient
+            svgLegend.append("text")
+                .text("0");
+
+            svgLegend.append("rect")
+                .attr("x", 0)
+                .attr("y", 30)
+                .attr("width", 1000)
+                .attr("height", 15)
+                .style("fill", "url(#linear-gradient)");
         };
 
         // Step 4 price graphs
@@ -947,7 +1014,7 @@
                 let wineRcomRegion = d3.select("#wine-recom-region");
                 let wineRcomWinery = d3.select("#wine-recom-winery");
 
-                wine.on("mouseover", function() {
+                wine.on("mouseover", function () {
                     wineRcomName.text(wineInfo.Name);
                     wineRcomCountry.text(wineInfo.Country);
                     wineRcomRegion.text(wineInfo.Region);
@@ -957,7 +1024,7 @@
                     wineRcomRating.text(wineInfo.Rating);
                 });
 
-                wine.on("mouseout", function() {
+                wine.on("mouseout", function () {
                     wineRcomName.text("HOVER OVER A WINE");
                     wineRcomCountry.text("");
                     wineRcomRegion.text("");
@@ -967,7 +1034,7 @@
                     wineRcomRating.text("");
                 });
 
-                wine.on("click", function() {
+                wine.on("click", function () {
                     let allWines = d3.selectAll(".wine");
                     allWines.style("border", "2px solid white"); // Unselect other selections
                     wine.style("border", "2px solid black");
